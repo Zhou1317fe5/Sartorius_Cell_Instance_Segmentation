@@ -4,6 +4,7 @@
 *.egg-info
 *.pyc
 data/datasets/*
+models/model_hub/*
 models/checkpoints/*
 !data/datasets/.gitkeep
 !models/checkpoints/.gitkeep
