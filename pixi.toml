@@ -1,0 +1,81 @@
+[project]
+name = "your_cv_project_name"
+# 定义从哪里获取软件包。
+# 通常建议使用 conda-forge。 如果需要，可以使用 nvidia 频道来获取 CUDA 工具包。
+channels = ["conda-forge"]
+# 指定您的项目将在哪些平台上运行。
+platforms = ["win-64", "linux-64"]
+version = "0.1.0"
+
+# --- Windows 和 Linux 的通用依赖项 所有环境都会使用 ---
+[dependencies]
+python = "3.12.*" # 指定您期望的 Python 版本范围
+# 数据处理库
+numpy = "*"
+pandas = "*"
+scipy = "*"
+scikit-learn = "*"
+# 可视化
+matplotlib = "*"
+seaborn = "*"
+# 图像处理
+opencv = "*"
+pillow = "*"
+# 工具库
+tqdm = "*"
+pyyaml = "*"
+ipython = "*"
+# Jupyter支持 - 添加到所有环境
+jupyter = "*"
+jupyterlab = "*"
+ipykernel = "*"
+ipywidgets = "*"
+nodejs = "*"
+
+
+# --- PyPI 依赖 ---
+[pypi-dependencies]
+
+# 实验追踪与模型管理
+#wandb = "*"
+#mlflow = "*"
+
+# --- 用于 GPU 加速环境的特性 ---
+[feature.gpu.system-requirements]
+# 当前系统具备的CUDA版本
+cuda = "12.0"
+
+[feature.gpu.dependencies]
+pytorch-gpu = "*" # 或者指定一个版本，例如 ">=2.1"
+#cuda-version = "11.8.*" # 指定安装特定版本的 cuda 包
+torchvision = "*"
+
+
+[feature.gpu.tasks]
+setup-gpu-kernel = "python -m ipykernel install --user --name=gpu_env --display-name='GPU Environment'"
+check-gpu = "python -c \"import torch; print('GPU可用:', torch.cuda.is_available(), ', 设备数量:', torch.cuda.device_count())\""
+
+# --- 用于 CPU 专用环境的特性 ---
+[feature.cpu.dependencies]
+pytorch-cpu = "*" # 或者指定一个版本
+torchvision = "*"
+
+[feature.cpu.tasks]
+setup-cpu-kernel = "python -m ipykernel install --user --name=cpu_env --display-name='CPU Environment'"
+
+
+# --- 环境定义 ---
+[environments]
+# 开发环境（CPU）- 适用于Windows和Linux
+cpu-env = { features = ["cpu"], solve-group = "cpu"}
+# 训练环境（GPU）- 适用于Windows和Linux
+gpu-env = { features = ["gpu"], solve-group = "gpu" }
+# 可优化：Windows专用GPU环境（可能有特定配置）、Linux专用GPU环境（用于大规模训练）
+# win-gpu = { features = ["gpu", "windows"], solve-group = "gpu-win" }
+# linux-gpu = { features = ["gpu", "windows"], solve-group = "gpu-linux" }
+
+# --- 任务用于常见操作 ---
+[tasks]
+# jupyter相关
+notebook = "jupyter notebook"
+lab = "jupyter lab"

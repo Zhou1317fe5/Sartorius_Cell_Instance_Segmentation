@@ -1,0 +1,9 @@
+
+# pixi environments
+.pixi
+*.egg-info
+*.pyc
+data/datasets/*
+models/checkpoints/*
+!data/datasets/.gitkeep
+!models/checkpoints/.gitkeep
