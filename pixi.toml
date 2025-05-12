@@ -52,7 +52,7 @@ torchvision = "*"
 
 
 [feature.gpu.tasks]
-setup-gpu-kernel = "python -m ipykernel install --user --name=gpu_env --display-name='GPU Environment'"
+setup-gpu-kernel = "python -m ipykernel install --user --name=sar_gpu_env --display-name='sar_gpu_env'"
 check-gpu = "python -c \"import torch; print('GPU可用:', torch.cuda.is_available(), ', 设备数量:', torch.cuda.device_count())\""
 
 # --- 用于 CPU 专用环境的特性 ---
@@ -61,8 +61,7 @@ pytorch-cpu = "*" # 或者指定一个版本
 torchvision = "*"
 
 [feature.cpu.tasks]
-setup-cpu-kernel = "python -m ipykernel install --user --name=cpu_env --display-name='CPU Environment'"
-
+setup-cpu-kernel = "python -m ipykernel install --user --name=sar_cpu_env --display-name='sar_cpu_env'"
 
 # --- 环境定义 ---
 [environments]
