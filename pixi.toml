@@ -52,8 +52,16 @@ torchvision = "*"
 
 
 [feature.gpu.tasks]
-setup-gpu-kernel = "python -m ipykernel install --user --name=sar_gpu --display-name='sar_gpu'"
 check-gpu = "python -c \"import torch; print('GPU可用:', torch.cuda.is_available(), ', 设备数量:', torch.cuda.device_count())\""
+
+# 参数传递型任务需要用MiniJinja格式
+[feature.gpu.tasks.setup-gpu-kernel]
+args = [
+  { "arg" = "kernel_name", "default" = "custom_gpu" },
+  { "arg" = "display_name", "default" = "Custom GPU" }
+]
+cmd = "python -m ipykernel install --user --name={{ kernel_name }} --display-name=\"{{ display_name }}\""
+
 
 # --- 用于 CPU 专用环境的特性 ---
 [feature.cpu.dependencies]
@@ -61,7 +69,13 @@ pytorch-cpu = "*" # 或者指定一个版本
 torchvision = "*"
 
 [feature.cpu.tasks]
-setup-cpu-kernel = "python -m ipykernel install --user --name=sar_cpu --display-name='sar_cpu'"
+
+[feature.cpu.tasks.setup-cpu-kernel]
+args = [
+  { "arg" = "kernel_name", "default" = "custom_cpu" },
+  { "arg" = "display_name", "default" = "Custom CPU Environment" }
+]
+cmd = "python -m ipykernel install --user --name={{ kernel_name }} --display-name=\"{{ display_name }}\""
 
 # --- 环境定义 ---
 [environments]
@@ -78,3 +92,8 @@ gpu-env = { features = ["gpu"], solve-group = "gpu" }
 # jupyter相关
 notebook = "jupyter notebook"
 lab = "jupyter lab"
+
+# 内核管理任务
+list-all-kernels = "jupyter kernelspec list"
+remove-kernel = "jupyter kernelspec remove"
+
