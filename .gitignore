@@ -1,8 +1,14 @@
-
 # pixi environments
 .pixi
 *.egg-info
 *.pyc
+
+# Jupyter 相关排除
+**/.ipynb_checkpoints/*
+**/*.ipynb_checkpoints
+**/.history/  # VS Code Jupyter 插件历史记录
+
+# 项目相关排除
 data/datasets/*
 models/model_hub/*
 models/checkpoints/*
